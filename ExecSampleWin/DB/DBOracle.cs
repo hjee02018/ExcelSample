@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using Oracle.ManagedDataAccess.Client;
-
+using System;
+using System.Collections.Concurrent;
+using System.Data;
 
 namespace ExecSampleWin.DB
 {
@@ -388,4 +382,5 @@ namespace ExecSampleWin.DB
 
         #endregion
     }
+
 }

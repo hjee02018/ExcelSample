@@ -1,0 +1,17 @@
+F:\Project\Source\repos\ExecSampleWin\bin\Debug\ExecSampleWin.exe.config
+F:\Project\Source\repos\ExecSampleWin\bin\Debug\ExecSampleWin.exe
+F:\Project\Source\repos\ExecSampleWin\bin\Debug\ExecSampleWin.pdb
+F:\Project\Source\repos\ExecSampleWin\bin\Debug\log4net.dll
+F:\Project\Source\repos\ExecSampleWin\bin\Debug\Newtonsoft.Json.dll
+F:\Project\Source\repos\ExecSampleWin\bin\Debug\Oracle.ManagedDataAccess.dll
+F:\Project\Source\repos\ExecSampleWin\bin\Debug\Newtonsoft.Json.xml
+F:\Project\Source\repos\ExecSampleWin\obj\Debug\ExecSampleWin.csproj.AssemblyReference.cache
+F:\Project\Source\repos\ExecSampleWin\obj\Debug\ExecSampleWin.Form1.resources
+F:\Project\Source\repos\ExecSampleWin\obj\Debug\ExecSampleWin.Properties.Resources.resources
+F:\Project\Source\repos\ExecSampleWin\obj\Debug\ExecSampleWin.csproj.GenerateResource.cache
+F:\Project\Source\repos\ExecSampleWin\obj\Debug\ExecSampleWin.csproj.CoreCompileInputs.cache
+F:\Project\Source\repos\ExecSampleWin\obj\Debug\ExecSampleWin.csproj.CopyComplete
+F:\Project\Source\repos\ExecSampleWin\obj\Debug\ExecSampleWin.exe
+F:\Project\Source\repos\ExecSampleWin\obj\Debug\ExecSampleWin.pdb
+F:\Project\Source\repos\ExecSampleWin\bin\Debug\System.Configuration.ConfigurationManager.dll
+F:\Project\Source\repos\ExecSampleWin\bin\Debug\System.Configuration.ConfigurationManager.xml

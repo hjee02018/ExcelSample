@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExecSampleWin.DB;
+using System;
 using System.Collections.Generic;
 using System.Drawing.Printing;
 using System.Linq;
@@ -14,6 +15,6 @@ namespace ExecSampleWin
         private string DB_USER_ID = "";
         private string DB_USER_PW = "";
 
-
-  }
+        public static DbOracle dbOracle = null;
+    }
 }
