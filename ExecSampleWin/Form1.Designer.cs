@@ -163,7 +163,7 @@
             // 
             // dtToDate
             // 
-            this.dtToDate.Location = new System.Drawing.Point(281, 13);
+            this.dtToDate.Location = new System.Drawing.Point(267, 13);
             this.dtToDate.Name = "dtToDate";
             this.dtToDate.Size = new System.Drawing.Size(140, 21);
             this.dtToDate.TabIndex = 9;
@@ -171,7 +171,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(252, 19);
+            this.label5.Location = new System.Drawing.Point(247, 19);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(14, 12);
             this.label5.TabIndex = 10;
@@ -180,7 +180,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(20, 54);
+            this.label7.Location = new System.Drawing.Point(417, 18);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(42, 12);
             this.label7.TabIndex = 12;
@@ -189,14 +189,15 @@
             // cmbSite
             // 
             this.cmbSite.FormattingEnabled = true;
-            this.cmbSite.Location = new System.Drawing.Point(75, 50);
+            this.cmbSite.Location = new System.Drawing.Point(465, 14);
             this.cmbSite.Name = "cmbSite";
             this.cmbSite.Size = new System.Drawing.Size(121, 20);
             this.cmbSite.TabIndex = 13;
+            this.cmbSite.SelectedIndexChanged += new System.EventHandler(this.cmbSite_SelectedIndexChanged);
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(594, 54);
+            this.btnSearch.Location = new System.Drawing.Point(806, 12);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(74, 23);
             this.btnSearch.TabIndex = 14;
@@ -251,7 +252,7 @@
             // lbTotCnt
             // 
             this.lbTotCnt.AutoSize = true;
-            this.lbTotCnt.Location = new System.Drawing.Point(625, 518);
+            this.lbTotCnt.Location = new System.Drawing.Point(845, 475);
             this.lbTotCnt.Name = "lbTotCnt";
             this.lbTotCnt.Size = new System.Drawing.Size(43, 12);
             this.lbTotCnt.TabIndex = 20;
@@ -259,7 +260,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(613, 713);
+            this.btnSave.Location = new System.Drawing.Point(818, 742);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(74, 23);
             this.btnSave.TabIndex = 21;
@@ -270,16 +271,16 @@
             // listView2
             // 
             this.listView2.HideSelection = false;
-            this.listView2.Location = new System.Drawing.Point(16, 742);
+            this.listView2.Location = new System.Drawing.Point(12, 663);
             this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(670, 73);
+            this.listView2.Size = new System.Drawing.Size(894, 73);
             this.listView2.TabIndex = 22;
             this.listView2.UseCompatibleStateImageBehavior = false;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(19, 719);
+            this.label11.Location = new System.Drawing.Point(10, 753);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(83, 12);
             this.label11.TabIndex = 23;
@@ -287,7 +288,7 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(108, 713);
+            this.progressBar1.Location = new System.Drawing.Point(692, 742);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(100, 23);
             this.progressBar1.TabIndex = 24;
@@ -309,7 +310,7 @@
             this.Column8,
             this.Column9,
             this.Column10});
-            this.dtResultView.Location = new System.Drawing.Point(3, 85);
+            this.dtResultView.Location = new System.Drawing.Point(3, 41);
             this.dtResultView.Name = "dtResultView";
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
@@ -322,7 +323,7 @@
             this.dtResultView.RowHeadersVisible = false;
             this.dtResultView.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dtResultView.RowTemplate.Height = 23;
-            this.dtResultView.Size = new System.Drawing.Size(671, 431);
+            this.dtResultView.Size = new System.Drawing.Size(891, 431);
             this.dtResultView.TabIndex = 25;
             // 
             // Column1
@@ -410,7 +411,7 @@
             this.groupBox1.Controls.Add(this.txtDBIP);
             this.groupBox1.Location = new System.Drawing.Point(15, 5);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(671, 115);
+            this.groupBox1.Size = new System.Drawing.Size(794, 115);
             this.groupBox1.TabIndex = 27;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "DB Info";
@@ -430,14 +431,14 @@
             this.groupBox2.Controls.Add(this.dtFromDate);
             this.groupBox2.Location = new System.Drawing.Point(12, 162);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(674, 542);
+            this.groupBox2.Size = new System.Drawing.Size(894, 495);
             this.groupBox2.TabIndex = 28;
             this.groupBox2.TabStop = false;
             // 
             // cmbSYSID
             // 
             this.cmbSYSID.FormattingEnabled = true;
-            this.cmbSYSID.Location = new System.Drawing.Point(349, 47);
+            this.cmbSYSID.Location = new System.Drawing.Point(659, 14);
             this.cmbSYSID.Name = "cmbSYSID";
             this.cmbSYSID.Size = new System.Drawing.Size(121, 20);
             this.cmbSYSID.TabIndex = 28;
@@ -445,7 +446,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(277, 50);
+            this.label4.Location = new System.Drawing.Point(599, 18);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(54, 12);
             this.label4.TabIndex = 27;
@@ -455,7 +456,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(699, 829);
+            this.ClientSize = new System.Drawing.Size(936, 781);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.progressBar1);
