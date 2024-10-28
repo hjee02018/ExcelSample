@@ -35,6 +35,9 @@ namespace ExecSampleWin
         private string ConnectionID         = string.Empty; 
         private string ConnectionPassword   = string.Empty;
 
+        //테스트 날짜 저장 (생성된 엑셀파일의 마지막 시트 기준)
+        private string testDate;
+
         // 저장 옵션
         private int saveOption = 1;
 
@@ -51,7 +54,7 @@ namespace ExecSampleWin
             UpdateSYSIDItems(cmbSite.SelectedItem.ToString());
 
             // 조회 일시 조건 커스텀
-            dtFromDate.CustomFormat = "yyyy/MM/dd/ hh:mm:ss";
+            dtFromDate.CustomFormat = "yyyy/MM/dd/ HH:mm:ss";
             dtToDate.CustomFormat   = dtFromDate.CustomFormat;
             dtFromDate.Value        = DateTime.Now.AddDays(-7);
             dtToDate.Value          = DateTime.Now;
@@ -558,7 +561,7 @@ namespace ExecSampleWin
 
                         // DATE 
                         newSheet.Cells[59, 11].NumberFormat = "@";
-                        string testDate = changeDateOrd(DT.Rows[i]["TEST_DATE"].ToString().Trim());
+                        testDate = changeDateOrd(DT.Rows[i]["TEST_DATE"].ToString().Trim());
                         newSheet.Cells[59, 11].Value = testDate;
 
                         // CarrierID & DestPort 
@@ -627,14 +630,15 @@ namespace ExecSampleWin
         private void btnSave_Click(object sender, EventArgs e)
         {
             // option.에 따라....
-            string defaultFileName = cmbSYSID.Text.ToString().Trim();
+            string sysid = cmbSYSID.Text.ToString().Trim();
+            string FileName = ("BOSK_KY1_CheckList_" + sysid + "_HMX_20240208"+ testDate);
 
             // SaveFileDialog 인스턴스 생성
 
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
                 // SaveFileDialog 설정
-
+                saveFileDialog.FileName = FileName;
                 saveFileDialog.Filter = "Excel Files (*.xlsx)|*.xlsx|All Files (*.*)|*.*";  // 저장할 파일 형식
                 saveFileDialog.FilterIndex = 1;  // 첫 번째 필터 (Excel Files)를 기본으로 선택
                 saveFileDialog.RestoreDirectory = true;  // 마지막으로 사용한 디렉터리를 기억
