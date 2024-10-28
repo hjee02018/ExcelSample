@@ -23,9 +23,20 @@ namespace ExecSampleWin
         private DBOracleSql sqlQuery = new DBOracleSql();
 
         // 원본 xlsx 
-        private string strPath = string.Empty;
+        private string strPath          = string.Empty;
+        
         // 저장할 xlsx
-        private string savePath = string.Empty;
+        private string savePath         = string.Empty;
+
+        // DB 접속 정보
+        private string ConnectionIP         = string.Empty;
+        private string ConnectionPort       = string.Empty;
+        private string ConnectionSID        = string.Empty;
+        private string ConnectionID         = string.Empty; 
+        private string ConnectionPassword   = string.Empty;
+
+        // 저장 옵션
+        private int saveOption = 1;
 
 
         public Form1()
@@ -36,11 +47,25 @@ namespace ExecSampleWin
             cmbSite.Items.Add("TN1");
             cmbSite.SelectedIndex = 0;
 
+            // !!!! site 변경 시 item도 클리어하고 다시 변경
             cmbSYSID.Items.Add("전체");
             cmbSYSID.Items.Add("E0RCC01000");
             cmbSYSID.Items.Add("E0PCC03000");
 
             cmbSYSID.SelectedIndex = 0;
+
+
+            // 조회 일시 조건 커스텀
+            dtFromDate.CustomFormat = "yyyy/MM/dd/ hh:mm:ss";
+            dtToDate.CustomFormat   = dtFromDate.CustomFormat;
+            dtFromDate.Value        = DateTime.Now.AddDays(-7);
+            dtToDate.Value          = DateTime.Now;
+
+            //
+            cmbSaveOption.Items.Add("Save-1 (데이터만  저장)");
+            cmbSaveOption.Items.Add("Save-2 (모든 트랙 저장)");
+            cmbSaveOption.SelectedIndex = 0;
+
 
             // DB 세팅 초기화
             InitializeOracle();
@@ -56,6 +81,15 @@ namespace ExecSampleWin
         /// <param name="e"></param>
         private void btnDBTest_Click(object sender, EventArgs e)
         {
+            GlobalClass.dbOracle.ConnectionIp       = txtDBIP.Text.ToString().Trim();
+
+            GlobalClass.dbOracle.ConnectionSID      = txtDBSID.Text.ToString().Trim();
+
+            GlobalClass.dbOracle.ConnectionID       = txtUSERID.Text.ToString().Trim();
+            GlobalClass.dbOracle.ConnectionPassword = txtUSERPW.Text.ToString().Trim();
+            
+            string returnValue = GlobalClass.dbOracle.SetConnectionString();
+
             if (GlobalClass.dbOracle.ConnectionStatus)
             {
                 MessageBox.Show("DB Connection Success", "성공", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -69,6 +103,7 @@ namespace ExecSampleWin
                 lbDBStatus.ForeColor = Color.Firebrick;
             }
         }
+
         /// <summary>
         /// ORACLE 접속 초기화
         /// </summary>
@@ -247,8 +282,20 @@ namespace ExecSampleWin
                 {
                     dtResultView.RowCount = DT.Rows.Count;
 
+                    // !!!! PLC IP 카운트를 위한 딕셔너리
+                    Dictionary<string, int> plcIPCount = new Dictionary<string, int>();
+
                     for (int nGridLoop = 0; nGridLoop < DT.Rows.Count; nGridLoop++)
                     {
+
+                        // PLC_IP 값을 배열에 저장
+                        string plcIp = DT.Rows[nGridLoop]["PLC_IP"].ToString().Trim();
+
+                        if (!plcIPCount.ContainsKey(plcIp))
+                            plcIPCount[plcIp] = 1;
+                        else
+                            plcIPCount[plcIp]++;
+
                         dtResultView.Rows[nGridLoop].Cells[0].Value = DT.Rows[nGridLoop]["ID_T_DEVICEMAP_CHECKLIST"].ToString().Trim();       // 자재ID
                         dtResultView.Rows[nGridLoop].Cells[1].Value = DT.Rows[nGridLoop]["LOCATION"].ToString().Trim();       // 자재ID
                         dtResultView.Rows[nGridLoop].Cells[2].Value = DT.Rows[nGridLoop]["SYS_ID"].ToString().Trim();       // 자재명
@@ -260,8 +307,23 @@ namespace ExecSampleWin
                         dtResultView.Rows[nGridLoop].Cells[8].Value = DT.Rows[nGridLoop]["TEST_TIME"].ToString().Trim();    // 수정일시
                         dtResultView.Rows[nGridLoop].Cells[9].Value = DT.Rows[nGridLoop]["CarrierID"].ToString().Trim();   // 수정인
                     }
+
+
                     dtResultView.ClearSelection();
                     lbTotCnt.Text = DT.Rows.Count.ToString() + " 건";
+
+                    // SAVE 
+                    dtSaveView.Rows.Clear(); // 초기화
+                    int rowIndex = 0;
+                    foreach (var kvp in plcIPCount)
+                    {
+                        dtSaveView.Rows.Add();
+                        dtSaveView.Rows[rowIndex].Cells[0].Value = kvp.Key;     // PLC IP
+                        dtSaveView.Rows[rowIndex].Cells[1].Value = kvp.Value;   // 해당 PLC IP의 행 개수
+                        dtSaveView.Rows[rowIndex].Cells[1].Value = "-";         // PLC IP 별 총 TRACK 개수
+                        rowIndex++;
+                    }
+
                 }
             }
             catch (Exception ex)
@@ -385,7 +447,8 @@ namespace ExecSampleWin
 
                         string newSheetName = $"{sys_id}_{plc_map}_{track_id}";
 
-                        //생성한 시트이름이 동일하면 뒤에 인덱스 추가해서 시트생성
+                        //생성한 시트이름이 동일하면 뒤에 인덱스 추가해서 시트생성 
+                        // -> 논의 必
 
                         int nameIndex = 1;
 
@@ -418,6 +481,7 @@ namespace ExecSampleWin
                             newSheet.Cells[61 + k, 10].Value = formattedDate;
                         }
 
+                        // c
                         for (int j = 0; j < 172; j++)
                         {
                             object value = DT.Rows[i][12 + j];
@@ -471,6 +535,8 @@ namespace ExecSampleWin
         /// <param name="e"></param>
         private void btnSave_Click(object sender, EventArgs e)
         {
+            // option.에 따라....
+
             // SaveFileDialog 인스턴스 생성
 
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
@@ -490,12 +556,7 @@ namespace ExecSampleWin
                     string savePath = saveFileDialog.FileName;  // 사용자가 선택한 경로
                     try
                     {
-                        // 선택된 파일 경로에 데이터를 저장하는 로직을 여기에 추가합니다.
-
-                        // 예: 엑셀 파일 저장, 텍스트 파일 저장 등
-
-                        // 예시로 엑셀 파일로 저장하는 로직
-
+                        // 데이터 저장 로직
                         SaveDataToExcel(savePath);
 
                         MessageBox.Show("파일이 성공적으로 저장되었습니다: " + savePath, "저장 완료", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -584,6 +645,15 @@ namespace ExecSampleWin
             //}
         }
 
-
+        /// <summary>
+        /// 저장 옵션 변경 시 저장 유형 변수 갱신 함수 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cmbSaveOption_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbSaveOption.SelectedIndex == 0) saveOption = 1;
+            else saveOption = 2;
+        }
     }
 }
