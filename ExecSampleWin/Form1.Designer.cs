@@ -207,6 +207,7 @@
             this.cmbSite.Name = "cmbSite";
             this.cmbSite.Size = new System.Drawing.Size(121, 20);
             this.cmbSite.TabIndex = 13;
+            this.cmbSite.SelectedIndexChanged += new System.EventHandler(this.cmbSite_SelectedIndexChanged);
             // 
             // btnSearch
             // 

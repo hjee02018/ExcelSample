@@ -47,13 +47,8 @@ namespace ExecSampleWin
             cmbSite.Items.Add("TN1");
             cmbSite.SelectedIndex = 0;
 
-            // !!!! site 변경 시 item도 클리어하고 다시 변경
-            cmbSYSID.Items.Add("전체");
-            cmbSYSID.Items.Add("E0RCC01000");
-            cmbSYSID.Items.Add("E0PCC03000");
-
-            cmbSYSID.SelectedIndex = 0;
-
+            // cmbSYSID 아이템 초기화
+            UpdateSYSIDItems(cmbSite.SelectedItem.ToString());
 
             // 조회 일시 조건 커스텀
             dtFromDate.CustomFormat = "yyyy/MM/dd/ hh:mm:ss";
@@ -72,6 +67,100 @@ namespace ExecSampleWin
 
             //
             //btnDBTest.PerformClick();
+        }
+
+        // cmbSYSID 아이템 업데이트하는 메서드
+        private void UpdateSYSIDItems(string site)
+        {
+            cmbSYSID.Items.Clear(); // 기존 아이템을 지우기
+
+            // 선택된 cmbSite에 따라 cmbSYSID 아이템 추가
+            if (site == "전체")
+            {
+                cmbSYSID.Items.Add("사이트를 선택하세요");
+            }
+            else if (site == "KY1")
+            {
+                cmbSYSID.Items.AddRange(new object[]
+                    {
+                            "C0VCC02000",
+                            "E0FCA01000",
+                            "E0FCC02000",
+                            "E0JCA04000",
+                            "E0JCC02000",
+                            "C0VCC04000",
+                            "E0JCC03000",
+                            "E0PCC02000",
+                            "C0VCC03000",
+                            "C0VCC05000",
+                            "E0JCA03000",
+                            "E0PCA02000",
+                            "E0PCA03000",
+                            "C0VCA01000",
+                            "E0RCA02000",
+                            "E0RCC01000",
+                            "E0RCC02000",
+                            "C0VCA05000",
+                            "C0VCA02000",
+                            "E0RCA01000",
+                            "C0VCA04000",
+                            "C0VCC01000",
+                            "E0JCC04000",
+                            "E0JCA02000",
+                            "E0PCC03000",
+                            "E0FCA02000",
+                            "E0JCA01000",
+                            "C0VCA03000",
+                            "E0FCC01000",
+                            "E0JCC01000"
+                    }
+                );
+            }
+            else if (site == "TN1")
+            {
+                cmbSYSID.Items.AddRange(new object[]
+                    {
+                            "E0FCC02000",
+                            "E0JCA04000",
+                            "E0JCC02000",
+                            "E0JCC03000",
+                            "E0PCC01000",
+                            "E0PCC02000",
+                            "C0VCC02000",
+                            "E0FCA01000",
+                            "C0VCC04000",
+                            "C0VCC03000",
+                            "E0JCA03000",
+                            "C0VCA01000",
+                            "E0PCA02000",
+                            "C0VCC05000",
+                            "E0RCA02000",
+                            "E0RCC01000",
+                            "E0RCC02000",
+                            "C0VCA02000",
+                            "C0VCA05000",
+                            "E0RCA01000",
+                            "C0VCA04000",
+                            "E0JCC04000",
+                            "C0VCC01000",
+                            "E0JCA02000",
+                            "E0JCA01000",
+                            "C0VCA03000",
+                            "E0PCA01000",
+                            "E0FCA02000",
+                            "E0JCC01000",
+                            "E0FCC01000"
+                    }
+                );
+            }
+
+            cmbSYSID.SelectedIndex = 0; // 기본 선택값 설정
+        }
+
+        private void cmbSite_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedSite = cmbSite.SelectedItem.ToString();
+            UpdateSYSIDItems(selectedSite);
         }
 
         /// <summary>
@@ -425,11 +514,10 @@ namespace ExecSampleWin
 
                         originalSheet.Cells.Copy(newSheet.Cells);
 
-                        //현재날짜 미국식으로 저장
 
-                        string currentDate = DateTime.Now.ToString("yyyyMMdd");
-
-                        string formattedDate = changeDateOrd(currentDate);
+                        //현재날짜 미국식으로 저장 -- 안쓸 것
+                        //string currentDate = DateTime.Now.ToString("yyyyMMdd");
+                        //string formattedDate = changeDateOrd(currentDate);
 
 
 
@@ -470,41 +558,44 @@ namespace ExecSampleWin
 
                         // DATE 
                         newSheet.Cells[59, 11].NumberFormat = "@";
-
-                        newSheet.Cells[59, 11].Value = changeDateOrd(DT.Rows[i]["TEST_DATE"].ToString().Trim());
+                        string testDate = changeDateOrd(DT.Rows[i]["TEST_DATE"].ToString().Trim());
+                        newSheet.Cells[59, 11].Value = testDate;
 
                         // CarrierID & DestPort 
                         for (int k = 0; k < 4; k++)
                         {
                             newSheet.Cells[61 + k, 9].Value = "O";
                             newSheet.Cells[61 + k, 10].NumberFormat = "@";
-                            newSheet.Cells[61 + k, 10].Value = formattedDate;
+                            newSheet.Cells[61 + k, 10].Value = testDate;
                         }
+                        newSheet.Cells[63, 11].Value = DT.Rows[i]["CarrierID"].ToString().Trim();
+                        newSheet.Cells[64, 11].NumberFormat = "@";
+                        newSheet.Cells[64, 11].Value = DT.Rows[i]["DestPort"].ToString().Trim();
+
+
 
                         // c
                         for (int j = 0; j < 172; j++)
                         {
                             object value = DT.Rows[i][12 + j];
 
-                            int valueCheck = value != DBNull.Value ? Convert.ToInt32(value) : 0;
-
-                            if (valueCheck != 0)
+                            if (value == DBNull.Value)
                             {
-                                newSheet.Cells[65 + j, 9].Value = "O";
-                                newSheet.Cells[65 + j, 10].NumberFormat = "@";
-                                newSheet.Cells[65 + j, 10].Value = formattedDate;
-                                newSheet.Cells[65 + j, 11].Value = value;
-                            }
-
-                            else
-                            {
+                                // 값이 없을 때
                                 newSheet.Cells[65 + j, 9].Value = "X";
                                 newSheet.Cells[65 + j, 10].NumberFormat = "@";
-                                newSheet.Cells[65 + j, 10].Value = formattedDate;
+                                newSheet.Cells[65 + j, 10].Value = testDate;
+                                newSheet.Tab.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
                             }
-
+                            else
+                            {
+                                // 값이 있을 때
+                                newSheet.Cells[65 + j, 9].Value = "O";
+                                newSheet.Cells[65 + j, 10].NumberFormat = "@";
+                                newSheet.Cells[65 + j, 10].Value = testDate;
+                                newSheet.Cells[65 + j, 11].Value = Convert.ToInt32(value); // 0값도 기록 가능
+                            }
                         }
-
                     }
 
                     newWorkbook.SaveAs(filePath);
@@ -536,6 +627,7 @@ namespace ExecSampleWin
         private void btnSave_Click(object sender, EventArgs e)
         {
             // option.에 따라....
+            string defaultFileName = cmbSYSID.Text.ToString().Trim();
 
             // SaveFileDialog 인스턴스 생성
 
@@ -544,13 +636,10 @@ namespace ExecSampleWin
                 // SaveFileDialog 설정
 
                 saveFileDialog.Filter = "Excel Files (*.xlsx)|*.xlsx|All Files (*.*)|*.*";  // 저장할 파일 형식
-
                 saveFileDialog.FilterIndex = 1;  // 첫 번째 필터 (Excel Files)를 기본으로 선택
-
                 saveFileDialog.RestoreDirectory = true;  // 마지막으로 사용한 디렉터리를 기억
 
                 // SaveFileDialog를 표시하고 사용자가 확인을 누르면 실행
-
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     string savePath = saveFileDialog.FileName;  // 사용자가 선택한 경로
