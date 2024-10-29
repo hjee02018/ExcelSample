@@ -45,7 +45,11 @@ namespace ExecSampleWin
         public Form1()
         {
             InitializeComponent();
-            cmbSite.Items.Add("전체");
+
+            // DB 세팅 초기화
+            InitializeOracle();
+
+            cmbSite.Items.Add("SITE");
             cmbSite.Items.Add("KY1");
             cmbSite.Items.Add("TN1");
             cmbSite.SelectedIndex = 0;
@@ -64,10 +68,6 @@ namespace ExecSampleWin
             cmbSaveOption.Items.Add("Save-2 (모든 트랙 저장)");
             cmbSaveOption.SelectedIndex = 0;
 
-
-            // DB 세팅 초기화
-            InitializeOracle();
-
             //
             //btnDBTest.PerformClick();
         }
@@ -77,86 +77,33 @@ namespace ExecSampleWin
         {
             cmbSYSID.Items.Clear(); // 기존 아이템을 지우기
 
-            // 선택된 cmbSite에 따라 cmbSYSID 아이템 추가
-            if (site == "전체")
+            if (!GlobalClass.dbOracle.ConnectionStatus)
             {
-                cmbSYSID.Items.Add("사이트를 선택하세요");
+                MessageBox.Show("DB 접속 상태를 확인하세요", "실패", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
             }
-            else if (site == "KY1")
+            try
             {
-                cmbSYSID.Items.AddRange(new object[]
-                    {
-                            "C0VCC02000",
-                            "E0FCA01000",
-                            "E0FCC02000",
-                            "E0JCA04000",
-                            "E0JCC02000",
-                            "C0VCC04000",
-                            "E0JCC03000",
-                            "E0PCC02000",
-                            "C0VCC03000",
-                            "C0VCC05000",
-                            "E0JCA03000",
-                            "E0PCA02000",
-                            "E0PCA03000",
-                            "C0VCA01000",
-                            "E0RCA02000",
-                            "E0RCC01000",
-                            "E0RCC02000",
-                            "C0VCA05000",
-                            "C0VCA02000",
-                            "E0RCA01000",
-                            "C0VCA04000",
-                            "C0VCC01000",
-                            "E0JCC04000",
-                            "E0JCA02000",
-                            "E0PCC03000",
-                            "E0FCA02000",
-                            "E0JCA01000",
-                            "C0VCA03000",
-                            "E0FCC01000",
-                            "E0JCC01000"
-                    }
-                );
-            }
-            else if (site == "TN1")
-            {
-                cmbSYSID.Items.AddRange(new object[]
-                    {
-                            "E0FCC02000",
-                            "E0JCA04000",
-                            "E0JCC02000",
-                            "E0JCC03000",
-                            "E0PCC01000",
-                            "E0PCC02000",
-                            "C0VCC02000",
-                            "E0FCA01000",
-                            "C0VCC04000",
-                            "C0VCC03000",
-                            "E0JCA03000",
-                            "C0VCA01000",
-                            "E0PCA02000",
-                            "C0VCC05000",
-                            "E0RCA02000",
-                            "E0RCC01000",
-                            "E0RCC02000",
-                            "C0VCA02000",
-                            "C0VCA05000",
-                            "E0RCA01000",
-                            "C0VCA04000",
-                            "E0JCC04000",
-                            "C0VCC01000",
-                            "E0JCA02000",
-                            "E0JCA01000",
-                            "C0VCA03000",
-                            "E0PCA01000",
-                            "E0FCA02000",
-                            "E0JCC01000",
-                            "E0FCC01000"
-                    }
-                );
-            }
+                ConcurrentDictionary<string, string> dicParams = new ConcurrentDictionary<string, string>();
 
+                dicParams.Clear();
+                if (cmbSite.SelectedIndex != 0)
+                {
+                    dicParams["SITE"] = cmbSite.Text.ToString().Trim();
+                    string sql = sqlQuery.SELECT_SYSID_LIST(dicParams);
+                    DataTable dt = GlobalClass.dbOracle.SelectSQL(sql);
+                    string[] sysIdArray = dt.AsEnumerable().Select(row => row["SYS_ID"].ToString()).ToArray();
+                    cmbSYSID.Items.AddRange(sysIdArray);
+                }
+                else
+                {
+                    cmbSYSID.Items.Add("SITE를 선택하세요");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
             cmbSYSID.SelectedIndex = 0; // 기본 선택값 설정
         }
 
@@ -252,54 +199,54 @@ namespace ExecSampleWin
             }
         }
         
-        /// <summary>
-        /// XLSX 작업 후 다른 이름으로 저장하기 테스트
-        /// </summary>
-        /// <param name="filePath"></param>
-        private void SaveExcelWithDifferentName(string filePath)
-        {
-            // Excel 애플리케이션 인스턴스 생성
-            Excel.Application excelApp = new Excel.Application();
-            Excel.Workbook workbook = null;
+        ///// <summary>
+        ///// XLSX 작업 후 다른 이름으로 저장하기 테스트
+        ///// </summary>
+        ///// <param name="filePath"></param>
+        //private void SaveExcelWithDifferentName(string filePath)
+        //{
+        //    // Excel 애플리케이션 인스턴스 생성
+        //    Excel.Application excelApp = new Excel.Application();
+        //    Excel.Workbook workbook = null;
 
-            try
-            {
-                // 기존 엑셀 파일 열기
-                workbook = excelApp.Workbooks.Open(filePath);
+        //    try
+        //    {
+        //        // 기존 엑셀 파일 열기
+        //        workbook = excelApp.Workbooks.Open(filePath);
 
-                using (SaveFileDialog saveFileDialog = new SaveFileDialog())
-                {
-                    saveFileDialog.Filter = "Excel Files (*.xlsx)|*.xlsx|All Files (*.*)|*.*";
-                    saveFileDialog.FilterIndex = 1;
-                    saveFileDialog.RestoreDirectory = true;
+        //        using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+        //        {
+        //            saveFileDialog.Filter = "Excel Files (*.xlsx)|*.xlsx|All Files (*.*)|*.*";
+        //            saveFileDialog.FilterIndex = 1;
+        //            saveFileDialog.RestoreDirectory = true;
 
-                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        savePath = saveFileDialog.FileName;
+        //            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+        //            {
+        //                savePath = saveFileDialog.FileName;
 
-                        // 새로운 엑셀 파일로 저장 (일단 원본 복붙부터)
-                        workbook.SaveAs(savePath);
+        //                // 새로운 엑셀 파일로 저장 (일단 원본 복붙부터)
+        //                workbook.SaveAs(savePath);
 
-                        MessageBox.Show("파일이 성공적으로 저장되었습니다: " + savePath, "저장 완료", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("오류 발생: " + ex.Message, "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                // Workbook 및 Excel 애플리케이션 닫기
-                if (workbook != null)
-                {
-                    workbook.Close(false);
-                    System.Runtime.InteropServices.Marshal.ReleaseComObject(workbook);
-                }
-                excelApp.Quit();
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
-            }
-        }
+        //                MessageBox.Show("파일이 성공적으로 저장되었습니다: " + savePath, "저장 완료", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("오류 발생: " + ex.Message, "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    }
+        //    finally
+        //    {
+        //        // Workbook 및 Excel 애플리케이션 닫기
+        //        if (workbook != null)
+        //        {
+        //            workbook.Close(false);
+        //            System.Runtime.InteropServices.Marshal.ReleaseComObject(workbook);
+        //        }
+        //        excelApp.Quit();
+        //        System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
+        //    }
+        //}
 
 
         /// <summary>
@@ -417,6 +364,10 @@ namespace ExecSampleWin
                     }
 
                 }
+                else
+                {
+                    dtResultView.Rows.Clear();
+                }
             }
             catch (Exception ex)
             {
@@ -435,17 +386,13 @@ namespace ExecSampleWin
                 throw new ArgumentException("입력 날짜 형식이 잘못되었습니다. 'yyyyMMdd' 형식이어야 합니다.");
 
             string year = inputDate.Substring(0, 4);
-
             string month = inputDate.Substring(4, 2);
-
             string day = inputDate.Substring(6, 2);
 
             return $"{month}/{day}/{year}";
-
         }
         
         // 시트 이름 중복 여부를 확인
-
         private bool IsSheetNameExists(Excel.Workbook workbook, string sheetName)
         {
 
@@ -455,15 +402,59 @@ namespace ExecSampleWin
             return false;
         }
 
-        // 데이터를 엑셀 파일로 저장하는 메서드 예시
+        // 데이터 엑셀에 쓰는 메서드
+        void WriteDataToSheet(dynamic sheet, DataRow dataRow, string track_id)
+        {
+            // EQP_ID, RACK_ID, DATE 입력
+            sheet.Cells[58, 7].Formula = dataRow["EQP_ID"].ToString().Trim();   
+            sheet.Cells[58, 10].Value = track_id;                              
+            sheet.Cells[59, 11].NumberFormat = "@";
+            string testDate = changeDateOrd(dataRow["TEST_DATE"].ToString().Trim());
+            sheet.Cells[59, 11].Value = testDate;
 
+            // CarrierID & DestPort
+            for (int k = 0; k < 4; k++)
+            {
+                sheet.Cells[61 + k, 9].Value = "O";
+                sheet.Cells[61 + k, 10].NumberFormat = "@";
+                sheet.Cells[61 + k, 10].Value = testDate;
+            }
+            sheet.Cells[63, 11].Value = dataRow["CarrierID"].ToString().Trim();
+            sheet.Cells[64, 11].NumberFormat = "@";
+            sheet.Cells[64, 11].Value = dataRow["DestPort"].ToString().Trim();
+
+            // Loop for additional data
+            for (int j = 0; j < 172; j++)
+            {
+                object value = dataRow[12 + j];
+
+                if (value == DBNull.Value)
+                {
+                    // No value
+                    sheet.Cells[65 + j, 9].Value = "X";
+                    sheet.Cells[65 + j, 10].NumberFormat = "@";
+                    sheet.Cells[65 + j, 10].Value = testDate;
+                    sheet.Tab.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
+                }
+                else
+                {
+                    // Has value
+                    sheet.Cells[65 + j, 9].Value = "O";
+                    sheet.Cells[65 + j, 10].NumberFormat = "@";
+                    sheet.Cells[65 + j, 10].Value = testDate;
+                    sheet.Cells[65 + j, 11].Value = Convert.ToInt32(value); // Also records zero values
+                }
+            }
+        }
+
+        // 엑셀시트 생성 메서드
         private void SaveDataToExcel(string filePath)
         {
             // Excel 애플리케이션 인스턴스 생성
 
             Excel.Application excelApp = new Excel.Application();
-
             Excel.Workbook originalWorkbook = null;
+            excelApp.DisplayAlerts = false;
 
             string originalFilePath = txtXLSXPath.Text;
 
@@ -475,149 +466,79 @@ namespace ExecSampleWin
             try
             {
                 ConcurrentDictionary<string, string> dicParams = new ConcurrentDictionary<string, string>();
-
                 dicParams.Clear();
 
-                if (cmbSite.SelectedIndex != 0) dicParams["SITE"] = cmbSite.Text.ToString().Trim();
 
+                if (cmbSite.SelectedIndex != 0) dicParams["SITE"] = cmbSite.Text.ToString().Trim();
                 dicParams["SYS_ID"] = cmbSYSID.Text.ToString().Trim();
 
                 DateTime fromDate = dtFromDate.Value.Date;
-
                 DateTime toDate = dtToDate.Value.Date;
 
                 dicParams["FROM_DATE"] = fromDate.ToString("yyyy-MM-dd");
-
                 dicParams["TO_DATE"] = toDate.ToString("yyyy-MM-dd");
 
                 System.Data.DataTable DT = new System.Data.DataTable();
-
                 string sql = sqlQuery.SELECT_T_DEVICEMAP_CHECKLIST(dicParams);
-
                 DT = GlobalClass.dbOracle.SelectSQL(sql);
 
                 if (DT.Rows.Count > 0)
                 {
                     // 원본 엑셀 파일 열기
-                    originalWorkbook = excelApp.Workbooks.Open(originalFilePath);
-                    
+                    originalWorkbook = excelApp.Workbooks.Open(originalFilePath);              
                     //새로운 엑셀파일(newWorkbook) 생성
                     Excel.Workbook newWorkbook = excelApp.Workbooks.Add();
 
                     //원본 엑셀파일이랑 모든 내용을 동일하게 새로운 엑셀파일에 추가
-
                     for (int i = 0; i < DT.Rows.Count; i++)
                     {
+                        DataRow dataRow = DT.Rows[i];
+
                         // 원본 시트 찾기
                         Excel.Worksheet originalSheet = originalWorkbook.Sheets["E0PCC03000 DEVICEMAP_123_001"]; // 작업 중인 workbook에서 원본 시트 참조
 
-
                         //새로운 엑셀시트 (newSheet) 생성해서 orginalSheet 복사
                         Excel.Worksheet newSheet = (Excel.Worksheet)newWorkbook.Sheets.Add(After: newWorkbook.Sheets[newWorkbook.Sheets.Count]);
-
                         originalSheet.Cells.Copy(newSheet.Cells);
 
+                        newSheet.Cells[58, 7].Formula = dataRow["EQP_ID"].ToString().Trim();
 
-                        //현재날짜 미국식으로 저장 -- 안쓸 것
-                        //string currentDate = DateTime.Now.ToString("yyyyMMdd");
-                        //string formattedDate = changeDateOrd(currentDate);
+                        //시트 이름 생성용
+                        string sys_id = dataRow["SYS_ID"].ToString().Trim();
+                        string track_id = dataRow["TRACK_ID"].ToString().Trim();
+                        string newSheetName = $"{sys_id}_PLCMAP_{track_id}";
 
-
-
-                        newSheet.Cells[58, 7].Formula = DT.Rows[i]["EQP_ID"].ToString().Trim();
-
-                        ////string sys_id = newSheet.Cells[58, 4].Value;
-
-                        string sys_id = DT.Rows[i]["SYS_ID"].ToString().Trim();
-
-                        string plc_map = "PLCMAP";
-
-                        string track_id = DT.Rows[i]["TRACK_ID"].ToString().Trim();
-
-                        // sys_id_name, plc_map_name, track_id_name을 _로 이어붙여 시트 이름 변경
-
-                        string newSheetName = $"{sys_id}_{plc_map}_{track_id}";
-
-                        //생성한 시트이름이 동일하면 뒤에 인덱스 추가해서 시트생성 
-                        // -> 논의 必
-
-                        int nameIndex = 1;
-
-                        string originalName = newSheetName;
-
-                        while (IsSheetNameExists(newWorkbook, newSheetName))
+                        //생성한 시트이름이 동일하면 해당시트 가져와서 덮어쓰기
+                        if (IsSheetNameExists(newWorkbook, newSheetName))
                         {
-                            newSheetName = $"{originalName}_{nameIndex}";
-                            nameIndex++;
+                            newSheet.Delete();
+                            System.Runtime.InteropServices.Marshal.ReleaseComObject(newSheet);
+
+                            Excel.Worksheet targetSheet = newWorkbook.Sheets[newSheetName];  
+                            WriteDataToSheet(targetSheet, dataRow, track_id); 
                         }
-
-                        newSheet.Name = newSheetName;
-
-                        // EQP_ID
-                        newSheet.Cells[58, 7].Formula = DT.Rows[i]["EQP_ID"].ToString().Trim();
-
-                        // TRACK_ID
-                        newSheet.Cells[58, 10].Value = track_id;
-
-                        // DATE 
-                        newSheet.Cells[59, 11].NumberFormat = "@";
-                        testDate = changeDateOrd(DT.Rows[i]["TEST_DATE"].ToString().Trim());
-                        newSheet.Cells[59, 11].Value = testDate;
-
-                        // CarrierID & DestPort 
-                        for (int k = 0; k < 4; k++)
+                        else
                         {
-                            newSheet.Cells[61 + k, 9].Value = "O";
-                            newSheet.Cells[61 + k, 10].NumberFormat = "@";
-                            newSheet.Cells[61 + k, 10].Value = testDate;
-                        }
-                        newSheet.Cells[63, 11].Value = DT.Rows[i]["CarrierID"].ToString().Trim();
-                        newSheet.Cells[64, 11].NumberFormat = "@";
-                        newSheet.Cells[64, 11].Value = DT.Rows[i]["DestPort"].ToString().Trim();
-
-
-
-                        // c
-                        for (int j = 0; j < 172; j++)
-                        {
-                            object value = DT.Rows[i][12 + j];
-
-                            if (value == DBNull.Value)
-                            {
-                                // 값이 없을 때
-                                newSheet.Cells[65 + j, 9].Value = "X";
-                                newSheet.Cells[65 + j, 10].NumberFormat = "@";
-                                newSheet.Cells[65 + j, 10].Value = testDate;
-                                newSheet.Tab.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
-                            }
-                            else
-                            {
-                                // 값이 있을 때
-                                newSheet.Cells[65 + j, 9].Value = "O";
-                                newSheet.Cells[65 + j, 10].NumberFormat = "@";
-                                newSheet.Cells[65 + j, 10].Value = testDate;
-                                newSheet.Cells[65 + j, 11].Value = Convert.ToInt32(value); // 0값도 기록 가능
-                            }
+                            newSheet.Name = newSheetName;
+                            WriteDataToSheet(newSheet, dataRow, track_id);
                         }
                     }
-
                     newWorkbook.SaveAs(filePath);
-
                     lbTotCnt.Text = DT.Rows.Count.ToString() + " 건";
-
                 }
-
             }
-
             catch (Exception ex)
             {
-
+                MessageBox.Show(ex.ToString());
             }
             finally
             {
-                GC.Collect();
+                if (originalWorkbook != null) originalWorkbook.Close(false);
+                
                 excelApp.Quit();
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
+                excelApp = null;
+                GC.Collect();
             }
 
         }
@@ -630,11 +551,11 @@ namespace ExecSampleWin
         private void btnSave_Click(object sender, EventArgs e)
         {
             // option.에 따라....
+            string site = cmbSite.Text.ToString().Trim();
             string sysid = cmbSYSID.Text.ToString().Trim();
-            string FileName = ("BOSK_KY1_CheckList_" + sysid + "_HMX_20240208"+ testDate);
+            string FileName = ("BOSK_"+ site + "_CheckList_" + sysid + "_HMX_20240208"+ testDate);
 
             // SaveFileDialog 인스턴스 생성
-
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
                 // SaveFileDialog 설정
@@ -651,7 +572,6 @@ namespace ExecSampleWin
                     {
                         // 데이터 저장 로직
                         SaveDataToExcel(savePath);
-
                         MessageBox.Show("파일이 성공적으로 저장되었습니다: " + savePath, "저장 완료", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     }
@@ -659,83 +579,8 @@ namespace ExecSampleWin
                     {
                         MessageBox.Show("파일 저장 중 오류가 발생했습니다: " + ex.Message, "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-
                 }
-
             }
-            //if (!GlobalClass.dbOracle.ConnectionStatus)
-            //{
-            //    MessageBox.Show("DB 접속 상태를 확인하세요", "실패", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    return;
-            //}
-
-            //try
-            //{
-            //    // workbook 로드
-            //    using (var workbook = new XLWorkbook(savePath))
-            //    {
-            //        // 원본 시트 (복제할 시트)
-            //        var sheet = workbook.Worksheets.FirstOrDefault(ws => ws.Name == "TEST");
-
-            //        if (sheet != null)
-            //        {
-            //            // DB 조회
-            //            ConcurrentDictionary<string, string> dicParams = new ConcurrentDictionary<string, string>();
-            //            dicParams.Clear();
-            //            if (cmbSite.SelectedIndex != 0) dicParams["SITE"] = cmbSite.Text.ToString().Trim();
-            //            if (cmbSYSID.SelectedIndex != 0) dicParams["SYS_ID"] = cmbSYSID.Text.ToString().Trim();
-
-            //            DataTable DT = new DataTable();
-            //            string sql = sqlQuery.SELECT_T_DEVICEMAP_CHECKLIST(dicParams);
-            //            DT = GlobalClass.dbOracle.SelectSQL(sql);
-
-            //            // 각 행에 대해 시트를 복제하고 데이터를 삽입
-            //            if (DT.Rows.Count > 0)
-            //            {
-            //                for (int i = 0; i < DT.Rows.Count; i++)
-            //                {
-            //                    // 복제할 시트 생성, 시트 이름은 동적으로 설정 (예: "TEST_Copy_1", "TEST_Copy_2" 등)
-            //                    var copiedSheet = sheet.CopyTo($"TEST_Copy_{i + 1}");
-
-            //                    // B58 cell : sys_id 
-            //                    copiedSheet.Cell("B58").Value = cmbSYSID.Text.ToString().Trim();
-
-            //                    // k58 cell : test_date + test_time
-            //                    copiedSheet.Cell("K58").Value = DT.Rows[i]["TEST_DATE"].ToString().Trim() +" "+ DT.Rows[i]["TEST_TIME"].ToString().Trim();
-
-
-            //                    // I61부터 데이터 삽입 (예: EQP_ID)
-            //                    int rowIndex = 63; // I63 셀부터 시작 ~ 236
-            //                    for (int row = 63; row <= 67; row++)
-            //                    {
-            //                        copiedSheet.Cell($"I{row}").Value = DT.Rows[i]["CarrierID"].ToString().Trim();
-            //                        copiedSheet.Cell($"I{row}").Value = DT.Rows[i]["DestPort"].ToString().Trim();
-            //                        copiedSheet.Cell($"I{row}").Value = DT.Rows[i]["TrayType"].ToString().Trim();
-            //                        copiedSheet.Cell($"I{row}").Value = DT.Rows[i]["PalletUnit"].ToString().Trim();
-            //                        copiedSheet.Cell($"I{row}").Value = DT.Rows[i]["Polarity"].ToString().Trim();
-
-            //                    }
-            //                }
-            //            }
-
-            //            // 변경된 workbook 저장
-            //            workbook.SaveAs(savePath);
-            //            MessageBox.Show("엑셀 파일 저장 완료", "성공", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //        }
-            //        else
-            //        {
-            //            MessageBox.Show("'TEST' 시트를 찾을 수 없습니다.", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.ToString(), "실패", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
-            //finally
-            //{
-            //    GC.Collect();
-            //}
         }
 
         /// <summary>

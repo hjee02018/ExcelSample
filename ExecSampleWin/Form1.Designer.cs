@@ -112,7 +112,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label2.ForeColor = System.Drawing.Color.DimGray;
-            this.label2.Location = new System.Drawing.Point(4, 82);
+            this.label2.Location = new System.Drawing.Point(3, 48);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 12);
             this.label2.TabIndex = 3;
@@ -120,7 +120,7 @@
             // 
             // txtUSERID
             // 
-            this.txtUSERID.Location = new System.Drawing.Point(114, 73);
+            this.txtUSERID.Location = new System.Drawing.Point(114, 43);
             this.txtUSERID.Name = "txtUSERID";
             this.txtUSERID.Size = new System.Drawing.Size(199, 21);
             this.txtUSERID.TabIndex = 2;
@@ -131,7 +131,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label3.ForeColor = System.Drawing.Color.DimGray;
-            this.label3.Location = new System.Drawing.Point(4, 114);
+            this.label3.Location = new System.Drawing.Point(341, 46);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(66, 12);
             this.label3.TabIndex = 5;
@@ -139,15 +139,15 @@
             // 
             // txtUSERPW
             // 
-            this.txtUSERPW.Location = new System.Drawing.Point(114, 105);
+            this.txtUSERPW.Location = new System.Drawing.Point(424, 43);
             this.txtUSERPW.Name = "txtUSERPW";
-            this.txtUSERPW.Size = new System.Drawing.Size(199, 21);
+            this.txtUSERPW.Size = new System.Drawing.Size(172, 21);
             this.txtUSERPW.TabIndex = 4;
             this.txtUSERPW.Text = "12345";
             // 
             // btnDBTest
             // 
-            this.btnDBTest.Location = new System.Drawing.Point(333, 106);
+            this.btnDBTest.Location = new System.Drawing.Point(694, 35);
             this.btnDBTest.Name = "btnDBTest";
             this.btnDBTest.Size = new System.Drawing.Size(121, 23);
             this.btnDBTest.TabIndex = 6;
@@ -160,7 +160,7 @@
             this.lbDBStatus.AutoSize = true;
             this.lbDBStatus.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lbDBStatus.ForeColor = System.Drawing.Color.Firebrick;
-            this.lbDBStatus.Location = new System.Drawing.Point(488, 111);
+            this.lbDBStatus.Location = new System.Drawing.Point(698, 76);
             this.lbDBStatus.Name = "lbDBStatus";
             this.lbDBStatus.Size = new System.Drawing.Size(194, 12);
             this.lbDBStatus.TabIndex = 7;
@@ -171,13 +171,13 @@
             this.dtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtFromDate.Location = new System.Drawing.Point(93, 22);
             this.dtFromDate.Name = "dtFromDate";
-            this.dtFromDate.Size = new System.Drawing.Size(154, 21);
+            this.dtFromDate.Size = new System.Drawing.Size(149, 21);
             this.dtFromDate.TabIndex = 8;
             // 
             // dtToDate
             // 
             this.dtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtToDate.Location = new System.Drawing.Point(264, 22);
+            this.dtToDate.Location = new System.Drawing.Point(268, 22);
             this.dtToDate.Name = "dtToDate";
             this.dtToDate.Size = new System.Drawing.Size(187, 21);
             this.dtToDate.TabIndex = 9;
@@ -194,7 +194,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(457, 24);
+            this.label7.Location = new System.Drawing.Point(461, 28);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(42, 12);
             this.label7.TabIndex = 12;
@@ -203,7 +203,7 @@
             // cmbSite
             // 
             this.cmbSite.FormattingEnabled = true;
-            this.cmbSite.Location = new System.Drawing.Point(505, 20);
+            this.cmbSite.Location = new System.Drawing.Point(509, 23);
             this.cmbSite.Name = "cmbSite";
             this.cmbSite.Size = new System.Drawing.Size(121, 20);
             this.cmbSite.TabIndex = 13;
@@ -211,7 +211,7 @@
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(744, 60);
+            this.btnSearch.Location = new System.Drawing.Point(837, 21);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(74, 23);
             this.btnSearch.TabIndex = 14;
@@ -224,7 +224,7 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label8.ForeColor = System.Drawing.Color.DimGray;
-            this.label8.Location = new System.Drawing.Point(16, 168);
+            this.label8.Location = new System.Drawing.Point(21, 127);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(71, 12);
             this.label8.TabIndex = 16;
@@ -232,10 +232,10 @@
             // 
             // txtXLSXPath
             // 
-            this.txtXLSXPath.Location = new System.Drawing.Point(108, 159);
+            this.txtXLSXPath.Location = new System.Drawing.Point(129, 124);
             this.txtXLSXPath.Name = "txtXLSXPath";
             this.txtXLSXPath.ReadOnly = true;
-            this.txtXLSXPath.Size = new System.Drawing.Size(199, 21);
+            this.txtXLSXPath.Size = new System.Drawing.Size(311, 21);
             this.txtXLSXPath.TabIndex = 15;
             // 
             // openFileDialog1
@@ -244,9 +244,9 @@
             // 
             // btnSelectPath
             // 
-            this.btnSelectPath.Location = new System.Drawing.Point(327, 160);
+            this.btnSelectPath.Location = new System.Drawing.Point(474, 124);
             this.btnSelectPath.Name = "btnSelectPath";
-            this.btnSelectPath.Size = new System.Drawing.Size(121, 23);
+            this.btnSelectPath.Size = new System.Drawing.Size(137, 23);
             this.btnSelectPath.TabIndex = 17;
             this.btnSelectPath.Text = "불러오기";
             this.btnSelectPath.UseVisualStyleBackColor = true;
@@ -257,7 +257,7 @@
             this.lbCSVStatus.AutoSize = true;
             this.lbCSVStatus.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lbCSVStatus.ForeColor = System.Drawing.Color.Firebrick;
-            this.lbCSVStatus.Location = new System.Drawing.Point(482, 165);
+            this.lbCSVStatus.Location = new System.Drawing.Point(713, 127);
             this.lbCSVStatus.Name = "lbCSVStatus";
             this.lbCSVStatus.Size = new System.Drawing.Size(204, 12);
             this.lbCSVStatus.TabIndex = 19;
@@ -266,7 +266,7 @@
             // lbTotCnt
             // 
             this.lbTotCnt.AutoSize = true;
-            this.lbTotCnt.Location = new System.Drawing.Point(775, 465);
+            this.lbTotCnt.Location = new System.Drawing.Point(868, 423);
             this.lbTotCnt.Name = "lbTotCnt";
             this.lbTotCnt.Size = new System.Drawing.Size(43, 12);
             this.lbTotCnt.TabIndex = 20;
@@ -274,7 +274,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(762, 871);
+            this.btnSave.Location = new System.Drawing.Point(852, 753);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(74, 23);
             this.btnSave.TabIndex = 21;
@@ -285,7 +285,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(13, 698);
+            this.label11.Location = new System.Drawing.Point(13, 600);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(83, 12);
             this.label11.TabIndex = 23;
@@ -293,7 +293,7 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(102, 692);
+            this.progressBar1.Location = new System.Drawing.Point(102, 600);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(100, 23);
             this.progressBar1.TabIndex = 24;
@@ -323,7 +323,7 @@
             this.Column8,
             this.Column9,
             this.Column10});
-            this.dtResultView.Location = new System.Drawing.Point(3, 89);
+            this.dtResultView.Location = new System.Drawing.Point(3, 59);
             this.dtResultView.Name = "dtResultView";
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
@@ -336,7 +336,7 @@
             this.dtResultView.RowHeadersVisible = false;
             this.dtResultView.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dtResultView.RowTemplate.Height = 23;
-            this.dtResultView.Size = new System.Drawing.Size(815, 361);
+            this.dtResultView.Size = new System.Drawing.Size(914, 361);
             this.dtResultView.TabIndex = 25;
             // 
             // Column1
@@ -427,7 +427,7 @@
             this.grpDBInfo.Controls.Add(this.btnDBTest);
             this.grpDBInfo.Location = new System.Drawing.Point(15, 5);
             this.grpDBInfo.Name = "grpDBInfo";
-            this.grpDBInfo.Size = new System.Drawing.Size(821, 140);
+            this.grpDBInfo.Size = new System.Drawing.Size(918, 108);
             this.grpDBInfo.TabIndex = 27;
             this.grpDBInfo.TabStop = false;
             this.grpDBInfo.Text = "DB Info";
@@ -437,7 +437,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label6.ForeColor = System.Drawing.Color.DimGray;
-            this.label6.Location = new System.Drawing.Point(4, 52);
+            this.label6.Location = new System.Drawing.Point(2, 74);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(101, 12);
             this.label6.TabIndex = 9;
@@ -445,7 +445,7 @@
             // 
             // txtDBSID
             // 
-            this.txtDBSID.Location = new System.Drawing.Point(114, 43);
+            this.txtDBSID.Location = new System.Drawing.Point(114, 70);
             this.txtDBSID.Name = "txtDBSID";
             this.txtDBSID.Size = new System.Drawing.Size(199, 21);
             this.txtDBSID.TabIndex = 8;
@@ -465,9 +465,9 @@
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.dtToDate);
             this.groupBox2.Controls.Add(this.dtFromDate);
-            this.groupBox2.Location = new System.Drawing.Point(12, 193);
+            this.groupBox2.Location = new System.Drawing.Point(15, 153);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(824, 492);
+            this.groupBox2.Size = new System.Drawing.Size(921, 444);
             this.groupBox2.TabIndex = 28;
             this.groupBox2.TabStop = false;
             // 
@@ -482,7 +482,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(632, 25);
+            this.label4.Location = new System.Drawing.Point(637, 27);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(54, 12);
             this.label4.TabIndex = 27;
@@ -491,12 +491,11 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.dtSaveView);
-            this.groupBox3.Location = new System.Drawing.Point(15, 734);
+            this.groupBox3.Location = new System.Drawing.Point(12, 629);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(821, 118);
+            this.groupBox3.Size = new System.Drawing.Size(924, 118);
             this.groupBox3.TabIndex = 29;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "groupBox3";
             // 
             // dtSaveView
             // 
@@ -521,7 +520,7 @@
             this.dtSaveView.RowHeadersVisible = false;
             this.dtSaveView.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dtSaveView.RowTemplate.Height = 23;
-            this.dtSaveView.Size = new System.Drawing.Size(824, 91);
+            this.dtSaveView.Size = new System.Drawing.Size(927, 91);
             this.dtSaveView.TabIndex = 0;
             // 
             // Column11
@@ -545,7 +544,7 @@
             // cmbSaveOption
             // 
             this.cmbSaveOption.FormattingEnabled = true;
-            this.cmbSaveOption.Location = new System.Drawing.Point(630, 874);
+            this.cmbSaveOption.Location = new System.Drawing.Point(715, 753);
             this.cmbSaveOption.Name = "cmbSaveOption";
             this.cmbSaveOption.Size = new System.Drawing.Size(121, 20);
             this.cmbSaveOption.TabIndex = 1;
@@ -555,7 +554,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(848, 908);
+            this.ClientSize = new System.Drawing.Size(948, 803);
             this.Controls.Add(this.cmbSaveOption);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.groupBox3);

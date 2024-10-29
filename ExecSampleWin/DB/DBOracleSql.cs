@@ -55,6 +55,34 @@ namespace ExecSampleWin.DB
             }
         }
 
+        public string SELECT_SYSID_LIST(ConcurrentDictionary<string,string> param)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            try
+            {
+                sb.AppendFormat("SELECT DISTINCT SYS_ID ");
+                sb.AppendFormat("FROM V_T_TRACK ");
+
+                if (param.ContainsKey("SITE"))
+                {
+                    if (param.TryGetValue("SITE", out string site))
+                        sb.AppendFormat("WHERE SITE = '{0}'   \r\n  ", site);
+                }
+
+                return sb.ToString();
+            }
+            catch (Exception ex)
+            {
+                //LogUtil.Log(LogUtil._ERROR_LEVEL, this.GetType().Name, ex.ToString());
+                return "";
+            }
+            finally
+            {
+                sb = null;
+            }
+        }
+
 
         public string SELECT_T_DEVICEMAP_CHECKLIST_OLD(ConcurrentDictionary<string, string> param)
         {
