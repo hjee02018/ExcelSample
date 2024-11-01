@@ -2,9 +2,9 @@
 Excel Generation Program for PLC TEST
 
 @ SKILLS
-  i. Database : Oracle
-  ii. Language : C#
-  iii. Framework : .NET 4.7.2 
+ Database : Oracle
+ Language : C#
+ Framework : .NET 4.7.2 
 
 
 1. XLSX(INPUT FILE)을 복제하며, PLC TEST DATA를 시트에 입력하는 자동화 솔루션
